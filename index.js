@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 app
   .use(cors())
@@ -21,6 +23,11 @@ db.mongoose
     console.log('Cannot connect to the database!', err);
     process.exit();
   });
+
+  //Swagger documentation setup
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
